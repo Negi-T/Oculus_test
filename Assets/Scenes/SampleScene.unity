@@ -251,7 +251,7 @@ GameObject:
   - component: {fileID: 298390944}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: test
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -324,8 +324,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 298390938}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.75, y: 0.7071595, z: -1.62}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 2.9236, y: 0.897, z: -1.1579}
+  m_LocalScale: {x: 0.6527503, y: 0.07625005, z: 0.07584429}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
@@ -446,8 +446,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 637548157}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -0, z: 21.49}
+  m_LocalScale: {x: 1.0000014, y: 0.9999996, z: 6.933545}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -749,7 +749,7 @@ GameObject:
   - component: {fileID: 1275496182}
   m_Layer: 0
   m_Name: XRRig
-  m_TagString: Untagged
+  m_TagString: test
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -807,13 +807,26 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1838962327}
+  - component: {fileID: 1838962326}
   m_Layer: 0
-  m_Name: PlayerManager
+  m_Name: initializerVR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1838962326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1838962325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 356d3f2685dd7a64d80244df67cbaa52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1838962327
 Transform:
   m_ObjectHideFlags: 0
@@ -822,7 +835,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1838962325}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.0750442, y: 0.79743445, z: -4.65804}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

@@ -7,53 +7,46 @@ public class playerMoveManager : MonoBehaviour
 {
     bool triggerValue;
 
-    Vector2 primaryAxisValue;
+    Vector2 primaryAxisValueL;
+    Vector2 primaryAxisValueR;
     Vector3 userPos;
     UnityEngine.XR.InputDevice deviceL;
     UnityEngine.XR.InputDevice deviceR;
 
+    initVR initVR;
+
+    GameObject initializer;
     void Start()
     {
-        var inputDevices = new List<UnityEngine.XR.InputDevice>();
-        var leftHandDevices = new List<UnityEngine.XR.InputDevice>();
-        var rightHandDevices = new List<UnityEngine.XR.InputDevice>();
+        initializer = GameObject.Find("initializerVR");
+        initVR = initializer.GetComponent<initVR>();
 
-        InputDevices.GetDevices(inputDevices);
-        UnityEngine.XR.InputDevices.GetDevicesAtXRNode(UnityEngine.XR.XRNode.LeftHand, leftHandDevices);
-        UnityEngine.XR.InputDevices.GetDevicesAtXRNode(UnityEngine.XR.XRNode.RightHand, rightHandDevices);
-
-        userPos = transform.position;
-
-        if (leftHandDevices.Count == 1)
-        {
-            deviceL = leftHandDevices[0];
-            Debug.Log("Left hand found");
-        }
-
-        if (rightHandDevices.Count == 1)
-        {
-            deviceR = rightHandDevices[0];
-        }
-
+        deviceL = initVR.deviceL;
+        deviceR = initVR.deviceR;
     }
 
     // Update is called once per frame
     void Update()
     {
         userPos = transform.position;
-        if (deviceL.TryGetFeatureValue(UnityEngine.XR.CommonUsages.primary2DAxis, out primaryAxisValue) && primaryAxisValue != Vector2.zero)
+        playerMovement();
+
+    }
+
+    private void playerMovement()
+    {
+        if (deviceL.TryGetFeatureValue(UnityEngine.XR.CommonUsages.primary2DAxis, out primaryAxisValueL) && primaryAxisValueL != Vector2.zero)
         {
-            transform.position += transform.forward * primaryAxisValue.y + transform.right * primaryAxisValue.x;
+            transform.position += transform.forward * primaryAxisValueL.y + transform.right * primaryAxisValueL.x;
         }
 
-        if (deviceR.TryGetFeatureValue(UnityEngine.XR.CommonUsages.primary2DAxis, out primaryAxisValue) && primaryAxisValue != Vector2.zero)
+        if (deviceR.TryGetFeatureValue(UnityEngine.XR.CommonUsages.primary2DAxis, out primaryAxisValueR) && primaryAxisValueR != Vector2.zero)
         {
-            if (primaryAxisValue.x > 0.5)
+            if (primaryAxisValueR.x > 0.5)
                 transform.Rotate(new Vector3(0, 1, 0), 5);
 
-            if (primaryAxisValue.x < -0.5) transform.Rotate(new Vector3(0, 1, 0), -5);
+            if (primaryAxisValueR.x < -0.5) transform.Rotate(new Vector3(0, 1, 0), -5);
 
         }
-
     }
 }
