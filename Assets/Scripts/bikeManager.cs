@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
 
-public class cube : MonoBehaviour
+public class bikeManager : MonoBehaviour
 {
     // Start is called before the first frame update
 
@@ -68,7 +68,15 @@ public class cube : MonoBehaviour
         //ride_animation
         if (deviceR.TryGetFeatureValue(CommonUsages.deviceRotation, out angularValueR) && angularValueR != Quaternion.identity)
         {
-          if(angularValueR.z < 0)   Debug.Log(angularValueR.z);
+          if(angularValueR.z < 0)
+          {
+          //  this.transform.position += Vector3.Scale((transform.forward * -angularValueR.z), new Vector3(0.5f,0.5f,0.5f));
+            player.transform.position += Vector3.Scale((transform.forward * -angularValueR.z), new Vector3(0.25f,0.25f,0.25f));
+             Debug.Log(angularValueR.z);
+          }
+     //     if(angularValueR.w < -0.5 || angularValueR.w > 0.5)  
+       //   player.transform.Rotate(new Vector3(0,angularValueR.w,0));
+;
         }
 
     }
