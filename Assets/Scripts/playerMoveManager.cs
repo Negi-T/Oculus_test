@@ -37,7 +37,7 @@ public class playerMoveManager : MonoBehaviour
     {
         if (deviceL.TryGetFeatureValue(UnityEngine.XR.CommonUsages.primary2DAxis, out primaryAxisValueL) && primaryAxisValueL != Vector2.zero)
         {
-            transform.position += transform.forward * primaryAxisValueL.y + transform.right * primaryAxisValueL.x;
+            transform.position += Vector3.Scale((transform.forward * primaryAxisValueL.y  + transform.right * primaryAxisValueL.x), new Vector3(0.05f,0.05f,0.05f));
         }
 
         if (deviceR.TryGetFeatureValue(UnityEngine.XR.CommonUsages.primary2DAxis, out primaryAxisValueR) && primaryAxisValueR != Vector2.zero)

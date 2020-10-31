@@ -7,15 +7,15 @@ public class cube : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    UnityEngine.XR.InputDevice deviceL;
+    //UnityEngine.XR.InputDevice deviceL;
     UnityEngine.XR.InputDevice deviceR;
 
     initVR initVR;
 
     GameObject initializer;
-
+    playerMoveManager pMM;
     private GameObject player;
-
+    Transform bikeTransform;
     bool triggerValue;
     Quaternion angularValueR;
     private bool isActiveBike;
@@ -25,10 +25,13 @@ public class cube : MonoBehaviour
         initializer = GameObject.Find("initializerVR");
         initVR = initializer.GetComponent<initVR>();
 
-        deviceL = initVR.deviceL;
+        //     deviceL = initVR.deviceL;
         deviceR = initVR.deviceR;
 
         a = GetComponent<Renderer>();
+        bikeTransform = GetComponent<Transform>();
+        player = GameObject.FindGameObjectWithTag("test");
+        pMM = player.GetComponent<playerMoveManager>();
     }
 
     // Update is called once per frame
@@ -48,26 +51,24 @@ public class cube : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "test")
-        {
-            isActiveBike = false;
-        }
+        a.material.color = Color.white;
+        isActiveBike = false;
+        this.transform.parent = null;
+        pMM.enabled = true;
     }
 
     private void RideBike(Collider other)
     {
         isActiveBike = true;
 
-        //Collider Off 
+        //parent
+        this.transform.SetParent(player.transform);
+        pMM.enabled = false;
 
         //ride_animation
-
-        //parent
-        //   player.transform.SetParent();
-
         if (deviceR.TryGetFeatureValue(CommonUsages.deviceRotation, out angularValueR) && angularValueR != Quaternion.identity)
         {
-            Debug.Log(angularValueR.z);
+          if(angularValueR.z < 0)   Debug.Log(angularValueR.z);
         }
 
     }
