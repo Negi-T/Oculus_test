@@ -13,27 +13,45 @@ public class bikeManager : MonoBehaviour
     initVR initVR;
 
     GameObject initializer;
-    GameObject steer;
+   
     playerMoveManager pMM;
     private GameObject player;
     Transform bikeTransform;
     bool triggerValue;
     Quaternion angularValueR;
     Vector3 positionValueR;
-    private bool isActiveBike;
+    //private bool isActiveBike;
     Renderer a;
     void Start()
     {
-        initializer = GameObject.Find("initializerVR");
+        initializer = GameObject.FindGameObjectWithTag("initVR");
         initVR = initializer.GetComponent<initVR>();
-
         //     deviceL = initVR.deviceL;
         deviceR = initVR.deviceR;
-        steer = transform.Find("Steer").gameObject;
-        a = steer.GetComponent<Renderer>();
-        bikeTransform = steer.GetComponent<Transform>();
+        
+        a =GetComponent<Renderer>();
+        bikeTransform = GetComponent<Transform>();
         player = GameObject.FindGameObjectWithTag("test");
         pMM = player.GetComponent<playerMoveManager>();
+
+         var inputDevices = new List<UnityEngine.XR.InputDevice>();
+        var leftHandDevices = new List<UnityEngine.XR.InputDevice>();
+        var rightHandDevices = new List<UnityEngine.XR.InputDevice>();
+
+        InputDevices.GetDevices(inputDevices);
+
+        foreach (var device in inputDevices)
+        {
+            Debug.Log(string.Format("Device found with name '{0}' and role '{1}'", device.name, device.characteristics.ToString()));
+        }
+
+        UnityEngine.XR.InputDevices.GetDevicesAtXRNode(UnityEngine.XR.XRNode.RightHand, rightHandDevices);
+
+        if (rightHandDevices.Count == 1)
+        {
+            deviceR = rightHandDevices[0];
+            Debug.Log(string.Format("Device name '{0}' with role '{1}'", deviceR.name, deviceR.characteristics.ToString()));
+        }
     }
 
     // Update is called once per frame
@@ -41,7 +59,6 @@ public class bikeManager : MonoBehaviour
     {
         if (other.gameObject.tag == "test")
         {
-
             if (deviceR.TryGetFeatureValue(UnityEngine.XR.CommonUsages.triggerButton, out triggerValue) && triggerValue)
             {
                 a.material.color = Color.blue;
@@ -54,17 +71,17 @@ public class bikeManager : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         a.material.color = Color.white;
-        isActiveBike = false;
-        this.transform.parent = null;
+     //   isActiveBike = false;
+        GameObject.Find("Bike").transform.parent = null;
         pMM.enabled = true;
     }
 
     private void RideBike(Collider other)
     {
-        isActiveBike = true;
+     //   isActiveBike = true;
 
         //parent
-        this.transform.SetParent(player.transform);
+        transform.parent.transform.SetParent(player.transform);
         pMM.enabled = false;
 
         //ride_animation
@@ -82,8 +99,9 @@ public class bikeManager : MonoBehaviour
 
         if (deviceR.TryGetFeatureValue(CommonUsages.devicePosition, out positionValueR) && positionValueR != null)
         {
-            float steerAbs = positionValueR.z - steer.transform.position.z;
-            if (Mathf.Abs(steerAbs) > 0.05f) player.transform.Rotate(new Vector3(0, 1, 0), steerAbs);
+            float steerAbs = positionValueR.z - transform.position.z;
+            Debug.Log(steerAbs);
+            if (Mathf.Abs(steerAbs) > 5f) player.transform.Rotate(new Vector3(0, 1, 0), steerAbs);
 
         }
 
