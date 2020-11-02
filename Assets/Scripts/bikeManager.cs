@@ -13,11 +13,13 @@ public class bikeManager : MonoBehaviour
     initVR initVR;
 
     GameObject initializer;
+    GameObject steer;
     playerMoveManager pMM;
     private GameObject player;
     Transform bikeTransform;
     bool triggerValue;
     Quaternion angularValueR;
+    Vector3 positionValueR;
     private bool isActiveBike;
     Renderer a;
     void Start()
@@ -27,9 +29,9 @@ public class bikeManager : MonoBehaviour
 
         //     deviceL = initVR.deviceL;
         deviceR = initVR.deviceR;
-
-        a = GetComponent<Renderer>();
-        bikeTransform = GetComponent<Transform>();
+        steer = transform.Find("Steer").gameObject;
+        a = steer.GetComponent<Renderer>();
+        bikeTransform = steer.GetComponent<Transform>();
         player = GameObject.FindGameObjectWithTag("test");
         pMM = player.GetComponent<playerMoveManager>();
     }
@@ -68,15 +70,21 @@ public class bikeManager : MonoBehaviour
         //ride_animation
         if (deviceR.TryGetFeatureValue(CommonUsages.deviceRotation, out angularValueR) && angularValueR != Quaternion.identity)
         {
-          if(angularValueR.z < 0)
-          {
-          //  this.transform.position += Vector3.Scale((transform.forward * -angularValueR.z), new Vector3(0.5f,0.5f,0.5f));
-            player.transform.position += Vector3.Scale((transform.forward * -angularValueR.z), new Vector3(0.25f,0.25f,0.25f));
-             Debug.Log(angularValueR.z);
-          }
-     //     if(angularValueR.w < -0.5 || angularValueR.w > 0.5)  
-       //   player.transform.Rotate(new Vector3(0,angularValueR.w,0));
-;
+            if (angularValueR.z < 0)
+            {
+                //  this.transform.position += Vector3.Scale((transform.forward * -angularValueR.z), new Vector3(0.5f,0.5f,0.5f));
+                player.transform.position += Vector3.Scale((transform.forward * -angularValueR.z), new Vector3(0.25f, 0.25f, 0.25f));
+
+            }
+
+            //player.transform.Rotate(new Vector3(0, 1, 0), angularValueR.x);
+        }
+
+        if (deviceR.TryGetFeatureValue(CommonUsages.devicePosition, out positionValueR) && positionValueR != null)
+        {
+            float steerAbs = positionValueR.z - steer.transform.position.z;
+            if (Mathf.Abs(steerAbs) > 0.05f) player.transform.Rotate(new Vector3(0, 1, 0), steerAbs);
+
         }
 
     }
