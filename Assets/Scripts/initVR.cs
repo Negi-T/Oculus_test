@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEngine.XR;
 public class initVR : MonoBehaviour
 {
-    bool triggerValue;
-    Vector2 primaryAxisValue;
+    
+    
     public UnityEngine.XR.InputDevice deviceL;
     public UnityEngine.XR.InputDevice deviceR;
-    private void Start()
+    public void Start()
     {
 
         var inputDevices = new List<UnityEngine.XR.InputDevice>();
@@ -45,5 +45,7 @@ public class initVR : MonoBehaviour
         {
             Debug.Log("Found more than one right hand!");
         }
+
     }
+
 }
