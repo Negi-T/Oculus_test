@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - test
+  - initVR
   layers:
   - Default
   - TransparentFX
